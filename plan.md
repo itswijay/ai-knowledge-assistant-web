@@ -1,6 +1,6 @@
 # Phase 3 Frontend Implementation Plan
 
-Status: implementation in progress; Steps 1 and 2 are complete. Step 3 is
+Status: implementation in progress; Steps 1 through 3 are complete. Step 4 is
 awaiting user confirmation.
 
 Last reviewed: 2026-08-29
@@ -12,8 +12,8 @@ Last reviewed: 2026-08-29
 | Step 0: Resolve preflight conditions | Partially complete | - |
 | Step 1: Install and configure the frontend foundation | Complete | 2026-08-29 |
 | Step 2: Establish the design foundation | Complete | 2026-08-29 |
-| Step 3: Implement Supabase authentication | Awaiting confirmation | - |
-| Step 4: Build the typed FastAPI layer | Not started | - |
+| Step 3: Implement Supabase authentication | Complete | 2026-08-29 |
+| Step 4: Build the typed FastAPI layer | Awaiting confirmation | - |
 | Step 5: Implement organization context and onboarding | Not started | - |
 | Step 6: Build dashboard home and assistant list | Not started | - |
 | Step 7: Implement assistant creation and workspace | Not started | - |
@@ -57,6 +57,36 @@ Step 2 verification:
 - Mobile navigation, theme switching, and skip-link focus transfer were verified
   in Chromium with no console or page errors. Captured screenshots were manually
   reviewed for phone, tablet, laptop, wide desktop, and open mobile navigation.
+
+Step 3 verification:
+
+- Added separate cookie-backed Supabase browser and server clients using
+  `@supabase/ssr` and the publishable-key convention.
+- Added Next.js 16 `src/proxy.ts` session refresh with `getClaims()`, refreshed
+  cookie propagation, protected-route redirects, and authenticated auth-screen
+  redirects. The protected dashboard layout independently verifies claims.
+- Added safe same-origin return-path handling so login, signup, callbacks, and
+  confirmation links cannot redirect to an external origin.
+- Added responsive login and signup flows using React Hook Form and Zod,
+  accessible field errors, password visibility, pending states, generic provider
+  errors, and email-confirmation feedback.
+- Added PKCE code exchange and token-hash email confirmation Route Handlers.
+- Added a real account menu and local sign-out flow that clears TanStack Query
+  and the selected-organization browser preference before returning to login.
+- Google OAuth and password reset were not exposed because provider and reset
+  configuration have not been confirmed.
+- `pnpm typecheck`: passed.
+- `pnpm lint`: passed.
+- `pnpm test:run`: passed, 9 files and 38 tests. Supabase was mocked; no real
+  project was called.
+- Next.js production build: passed with `/`, `/login`, `/signup`, both auth Route
+  Handlers, and Proxy compiled successfully.
+- Playwright verified protected redirects, invalid-callback recovery, field
+  validation, password visibility, auth navigation, dark mode, and exact-width
+  layouts at 360x800, 768x1024, 1280x800, and 1600x900 with no visible overflow
+  or application console errors.
+- Live credential acceptance remains pending the real Supabase URL/key, allowed
+  redirect URLs, email-confirmation template/policy, and a test account.
 
 ## 1. Goal
 

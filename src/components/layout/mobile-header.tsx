@@ -15,7 +15,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-export function MobileHeader() {
+export function MobileHeader({ userEmail }: { userEmail: string | null }) {
   return (
     <header className="sticky top-0 z-40 flex h-(--mobile-header-height) items-center justify-between border-b bg-background/95 px-4 supports-backdrop-filter:backdrop-blur-sm lg:hidden">
       <Brand compact />
@@ -35,7 +35,7 @@ export function MobileHeader() {
               <SheetTitle>Navigation</SheetTitle>
               <SheetDescription>Application navigation</SheetDescription>
             </SheetHeader>
-            <SidebarContent />
+            <SidebarContent userEmail={userEmail} />
           </SheetContent>
         </Sheet>
       </div>

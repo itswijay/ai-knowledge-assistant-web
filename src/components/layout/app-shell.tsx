@@ -1,7 +1,13 @@
 import { MobileHeader } from "@/components/layout/mobile-header";
 import { SidebarContent } from "@/components/layout/sidebar-content";
 
-export function AppShell({ children }: { children: React.ReactNode }) {
+export function AppShell({
+  children,
+  userEmail,
+}: {
+  children: React.ReactNode;
+  userEmail: string | null;
+}) {
   return (
     <div className="min-h-svh bg-background">
       <a
@@ -12,10 +18,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </a>
       <div className="lg:grid lg:min-h-svh lg:grid-cols-[var(--sidebar-width)_minmax(0,1fr)]">
         <aside className="sticky top-0 hidden h-svh border-r border-sidebar-border lg:block">
-          <SidebarContent />
+          <SidebarContent userEmail={userEmail} />
         </aside>
         <div className="min-w-0">
-          <MobileHeader />
+          <MobileHeader userEmail={userEmail} />
           <main id="main-content" tabIndex={-1} className="min-w-0 outline-none">
             {children}
           </main>

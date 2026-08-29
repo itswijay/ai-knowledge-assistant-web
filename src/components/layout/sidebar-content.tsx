@@ -3,11 +3,16 @@ import { Building2, ChevronsUpDown, Plus } from "lucide-react";
 import { Brand } from "@/components/layout/brand";
 import { AppNavigation } from "@/components/layout/app-navigation";
 import { ThemeMenu } from "@/components/layout/theme-menu";
+import { UserMenu } from "@/components/layout/user-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
-export function SidebarContent() {
+function getAccountInitial(email: string | null) {
+  return email?.charAt(0).toUpperCase() || "A";
+}
+
+export function SidebarContent({ userEmail }: { userEmail: string | null }) {
   return (
     <div className="flex h-full min-h-0 flex-col bg-sidebar text-sidebar-foreground">
       <div className="flex h-16 shrink-0 items-center px-4">
@@ -52,13 +57,16 @@ export function SidebarContent() {
 
         <div className="flex items-center gap-2 rounded-md px-2 py-1.5">
           <Avatar size="sm">
-            <AvatarFallback>A</AvatarFallback>
+            <AvatarFallback>{getAccountInitial(userEmail)}</AvatarFallback>
           </Avatar>
           <div className="min-w-0 flex-1">
             <p className="truncate text-xs font-medium">Account</p>
-            <p className="truncate text-xs text-sidebar-foreground/55">Not signed in</p>
+            <p className="truncate text-xs text-sidebar-foreground/55">
+              {userEmail ?? "Signed in"}
+            </p>
           </div>
           <ThemeMenu />
+          <UserMenu email={userEmail} />
         </div>
       </div>
     </div>
