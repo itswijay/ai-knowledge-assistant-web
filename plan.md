@@ -1,7 +1,7 @@
 # Phase 3 Frontend Implementation Plan
 
-Status: implementation in progress; Step 1 is complete and Step 2 is awaiting
-user confirmation.
+Status: implementation in progress; Steps 1 and 2 are complete. Step 3 is
+awaiting user confirmation.
 
 Last reviewed: 2026-08-29
 
@@ -11,8 +11,8 @@ Last reviewed: 2026-08-29
 | --- | --- | --- |
 | Step 0: Resolve preflight conditions | Partially complete | - |
 | Step 1: Install and configure the frontend foundation | Complete | 2026-08-29 |
-| Step 2: Establish the design foundation | Awaiting confirmation | - |
-| Step 3: Implement Supabase authentication | Not started | - |
+| Step 2: Establish the design foundation | Complete | 2026-08-29 |
+| Step 3: Implement Supabase authentication | Awaiting confirmation | - |
 | Step 4: Build the typed FastAPI layer | Not started | - |
 | Step 5: Implement organization context and onboarding | Not started | - |
 | Step 6: Build dashboard home and assistant list | Not started | - |
@@ -34,6 +34,29 @@ Step 1 verification:
   its CSS worker is not permitted to bind an internal port.
 - Environment fail-fast behavior: verified without exposing configuration
   values.
+
+Step 2 verification:
+
+- Initialized shadcn/ui for Tailwind CSS 4 with the required Radix-based
+  primitives only.
+- Added semantic light/dark tokens, tuned state colors, stable shell dimensions,
+  reduced-motion behavior, and visible focus treatment.
+- Added TanStack Query, Sonner, tooltip, and theme root providers.
+- Added the reusable page header, content container, empty/error states,
+  skeleton, loading button, and confirmation dialog.
+- Added a compact desktop sidebar, accessible mobile Sheet navigation, truthful
+  signed-out/organization-empty states, and a skip link targeting main content.
+- `pnpm typecheck`: passed.
+- `pnpm lint`: passed.
+- `pnpm test:run`: passed, 2 files and 6 tests.
+- Next.js production build: passed with webpack; `/` and `/_not-found` are
+  statically prerendered.
+- Playwright inspected 360x800, 768x1024, 1280x800, and 1600x900 viewports:
+  document widths matched each viewport, no visible elements crossed horizontal
+  bounds, and the expected mobile/desktop shell was active.
+- Mobile navigation, theme switching, and skip-link focus transfer were verified
+  in Chromium with no console or page errors. Captured screenshots were manually
+  reviewed for phone, tablet, laptop, wide desktop, and open mobile navigation.
 
 ## 1. Goal
 

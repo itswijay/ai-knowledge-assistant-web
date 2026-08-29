@@ -5,7 +5,9 @@ import { getPublicEnv } from "./src/lib/env";
 getPublicEnv();
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  experimental: {
+    useTypeScriptCli: false,
+  },
 };
 
 export default nextConfig;
