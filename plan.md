@@ -1,6 +1,6 @@
 # Phase 3 Frontend Implementation Plan
 
-Status: implementation in progress; Steps 1 through 3 are complete. Step 4 is
+Status: implementation in progress; Steps 1 through 4 are complete. Step 5 is
 awaiting user confirmation.
 
 Last reviewed: 2026-08-29
@@ -13,8 +13,8 @@ Last reviewed: 2026-08-29
 | Step 1: Install and configure the frontend foundation | Complete | 2026-08-29 |
 | Step 2: Establish the design foundation | Complete | 2026-08-29 |
 | Step 3: Implement Supabase authentication | Complete | 2026-08-29 |
-| Step 4: Build the typed FastAPI layer | Awaiting confirmation | - |
-| Step 5: Implement organization context and onboarding | Not started | - |
+| Step 4: Build the typed FastAPI layer | Complete | 2026-08-29 |
+| Step 5: Implement organization context and onboarding | Awaiting confirmation | - |
 | Step 6: Build dashboard home and assistant list | Not started | - |
 | Step 7: Implement assistant creation and workspace | Not started | - |
 | Step 8: Implement knowledge management | Not started | - |
@@ -87,6 +87,25 @@ Step 3 verification:
   or application console errors.
 - Live credential acceptance remains pending the real Supabase URL/key, allowed
   redirect URLs, email-confirmation template/policy, and a test account.
+
+Step 4 verification:
+
+- Implemented typed FastAPI wire request/response interfaces in `src/types/api.ts`
+  and clean camelCase domain models in `src/types/domain.ts`.
+- Created structured `ApiError` class in `src/lib/api/errors.ts` supporting HTTP
+  status helpers, FastAPI string error details, and FastAPI validation `loc` array
+  decomposition with per-field error mapping.
+- Implemented centralized API client in `src/lib/api/client.ts` with automatic
+  Supabase session Bearer token injection, single 401 token refresh retry, JSON
+  body serialization, multipart `FormData` support for PDF uploads, empty 204
+  response handling, and `AbortSignal` propagation without leaking credentials.
+- Implemented typed endpoint modules with domain mappers:
+  `src/lib/api/organizations.ts`, `src/lib/api/assistants.ts`,
+  `src/lib/api/documents.ts`, `src/lib/api/chat.ts`, `src/lib/api/me.ts`,
+  `src/lib/api/health.ts`, and barrel export `src/lib/api/index.ts`.
+- `pnpm typecheck`: passed with 0 errors.
+- `pnpm lint`: passed with 0 warnings.
+- `pnpm test:run`: passed, 12 test files and 75 unit tests passing.
 
 ## 1. Goal
 
