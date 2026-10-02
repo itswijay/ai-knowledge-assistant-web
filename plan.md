@@ -14,7 +14,7 @@ Last reviewed: 2026-08-29
 | Step 2: Establish the design foundation | Complete | 2026-08-29 |
 | Step 3: Implement Supabase authentication | Complete | 2026-08-29 |
 | Step 4: Build the typed FastAPI layer | Complete | 2026-08-29 |
-| Step 5: Implement organization context and onboarding | Awaiting confirmation | - |
+| Step 5: Implement organization context and onboarding | Complete | 2026-10-02 |
 | Step 6: Build dashboard home and assistant list | Not started | - |
 | Step 7: Implement assistant creation and workspace | Not started | - |
 | Step 8: Implement knowledge management | Not started | - |
@@ -106,6 +106,28 @@ Step 4 verification:
 - `pnpm typecheck`: passed with 0 errors.
 - `pnpm lint`: passed with 0 warnings.
 - `pnpm test:run`: passed, 12 test files and 75 unit tests passing.
+
+Step 5 verification:
+
+- Implemented centralized query key factories in `src/lib/query/keys.ts`.
+- Implemented organization creation validation schema with 1-120 character constraint in `src/features/organizations/schemas.ts`.
+- Implemented `OrganizationContext` and `OrganizationProvider` in `src/features/organizations/organization-context.tsx` with stored ID reconciliation, first-organization fallback, and strict tenant-switch cache isolation (cancelling in-flight requests and evicting old organization queries from TanStack Query cache).
+- Implemented `useOrganization` hook in `src/features/organizations/use-organization.ts`.
+- Implemented accessible Radix Dialog primitive in `src/components/ui/dialog.tsx`.
+- Implemented `CreateOrganizationDialog` with React Hook Form, Zod validation, `LoadingButton`, and `ApiError` normalization in `src/features/organizations/create-organization-dialog.tsx`.
+- Implemented `OrganizationSwitcher` in `src/components/layout/organization-switcher.tsx` replacing the placeholder disabled button in the desktop and mobile navigation sidebar.
+- Implemented `OrganizationOnboarding` empty state in `src/features/organizations/organization-onboarding.tsx`.
+- Updated `src/app/(dashboard)/layout.tsx` to wrap `AppShell` with `OrganizationProvider`.
+- Updated `src/components/layout/app-navigation.tsx` to dynamically enable Organization Settings navigation link when an organization is selected.
+- Updated `src/app/(dashboard)/page.tsx` to render loading skeleton while fetching, onboarding when 0 orgs, and tenant workspace overview when active.
+- Implemented read-only `/settings` page in `src/app/(dashboard)/settings/page.tsx` displaying organization details, copy UUID affordance, and future capabilities note.
+- Added comprehensive unit and component test suites:
+  - `src/lib/query/keys.test.ts`
+  - `src/features/organizations/schemas.test.ts`
+  - `src/features/organizations/organization-context.test.tsx`
+  - `src/features/organizations/create-organization-dialog.test.tsx`
+  - `src/components/layout/organization-switcher.test.tsx`
+  - `src/app/(dashboard)/settings/page.test.tsx`
 
 ## 1. Goal
 

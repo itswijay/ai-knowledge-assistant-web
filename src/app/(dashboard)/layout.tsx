@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { AppShell } from "@/components/layout/app-shell";
+import { OrganizationProvider } from "@/features/organizations/organization-context";
 import { getIdentityFromClaims } from "@/lib/auth/identity";
 import { createClient } from "@/lib/supabase/server";
 
@@ -17,5 +18,9 @@ export default async function DashboardLayout({
     redirect("/login");
   }
 
-  return <AppShell userEmail={identity.email}>{children}</AppShell>;
+  return (
+    <OrganizationProvider>
+      <AppShell userEmail={identity.email}>{children}</AppShell>
+    </OrganizationProvider>
+  );
 }

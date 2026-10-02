@@ -1,7 +1,8 @@
-import { Building2, ChevronsUpDown, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 
 import { Brand } from "@/components/layout/brand";
 import { AppNavigation } from "@/components/layout/app-navigation";
+import { OrganizationSwitcher } from "@/components/layout/organization-switcher";
 import { ThemeMenu } from "@/components/layout/theme-menu";
 import { UserMenu } from "@/components/layout/user-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -38,22 +39,7 @@ export function SidebarContent({ userEmail }: { userEmail: string | null }) {
       </div>
 
       <div className="shrink-0 space-y-3 border-t border-sidebar-border p-3">
-        <button
-          type="button"
-          disabled
-          className="flex h-11 w-full cursor-not-allowed items-center gap-2.5 rounded-md px-2 text-left opacity-55"
-        >
-          <span className="flex size-7 shrink-0 items-center justify-center rounded-md border border-sidebar-border bg-background/70">
-            <Building2 aria-hidden="true" className="size-3.5" />
-          </span>
-          <span className="min-w-0 flex-1">
-            <span className="block truncate text-xs font-medium">Organization</span>
-            <span className="block truncate text-xs text-sidebar-foreground/55">
-              None selected
-            </span>
-          </span>
-          <ChevronsUpDown aria-hidden="true" className="size-3.5" />
-        </button>
+        <OrganizationSwitcher />
 
         <div className="flex items-center gap-2 rounded-md px-2 py-1.5">
           <Avatar size="sm">

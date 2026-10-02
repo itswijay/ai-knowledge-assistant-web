@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Bot, House, Settings2, type LucideIcon } from "lucide-react";
 
+import { useOrganization } from "@/features/organizations/use-organization";
 import { cn } from "@/lib/utils";
 
 type NavigationItem = {
@@ -16,15 +17,6 @@ type NavigationItem = {
 const primaryItems: NavigationItem[] = [
   { label: "Home", href: "/", icon: House },
   { label: "Assistants", href: "/assistants", icon: Bot, disabled: true },
-];
-
-const settingsItems: NavigationItem[] = [
-  {
-    label: "Organization settings",
-    href: "/settings",
-    icon: Settings2,
-    disabled: true,
-  },
 ];
 
 function NavigationLink({ item }: { item: NavigationItem }) {
@@ -66,6 +58,17 @@ function NavigationLink({ item }: { item: NavigationItem }) {
 }
 
 export function AppNavigation() {
+  const { selectedOrganizationId } = useOrganization();
+
+  const settingsItems: NavigationItem[] = [
+    {
+      label: "Organization settings",
+      href: "/settings",
+      icon: Settings2,
+      disabled: !selectedOrganizationId,
+    },
+  ];
+
   return (
     <nav aria-label="Primary" className="space-y-5">
       <div className="space-y-1">
