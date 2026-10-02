@@ -16,7 +16,7 @@ Last reviewed: 2026-08-29
 | Step 4: Build the typed FastAPI layer | Complete | 2026-08-29 |
 | Step 5: Implement organization context and onboarding | Complete | 2026-10-02 |
 | Step 6: Build dashboard home and assistant list | Complete | 2026-10-02 |
-| Step 7: Implement assistant creation and workspace | Not started | - |
+| Step 7: Implement assistant creation and workspace | Complete | 2026-10-02 |
 | Step 8: Implement knowledge management | Not started | - |
 | Step 9: Implement the playground | Not started | - |
 | Step 10: Implement appearance and assistant settings | Not started | - |
@@ -142,6 +142,22 @@ Step 6 verification:
   - `src/components/assistants/assistant-card.test.tsx`
   - `src/app/(dashboard)/assistants/page.test.tsx`
   - `src/app/(dashboard)/page.test.tsx`
+
+Step 7 verification:
+
+- Implemented `createAssistantSchema` in `src/features/assistants/assistant-schemas.ts` enforcing 1-100 characters for name, optional 1,000 characters for description, hex color validation, and optional instructions/welcome message.
+- Implemented `useAssistant`, `useAssistantDocuments`, and `useCreateAssistant` in `src/features/assistants/use-assistant.ts` with organization-scoped query keys and automatic cache invalidation.
+- Created `AssistantWorkspaceNav` in `src/components/assistants/assistant-workspace-nav.tsx` providing local sub-navigation across Overview, Knowledge, Playground, Appearance, and Settings.
+- Created `/assistants/new` wizard in `src/app/(dashboard)/assistants/new/page.tsx` with name and description validation, expandable initial customization section, `LoadingButton`, and friendly 403 role-permission error alert.
+- Created `/assistants/[assistantId]/layout.tsx` featuring assistant branding header, tab bar, and secure 404 concealment for missing or cross-tenant assistants with recovery navigation.
+- Created `/assistants/[assistantId]/page.tsx` displaying real assistant metadata, document count, and quick shortcuts to all workspace tabs.
+- Added clean stub pages for `/knowledge`, `/playground`, `/appearance`, and `/settings` to ensure all workspace links are immediately testable and functional without 404s.
+- Added comprehensive unit and component test suites:
+  - `src/features/assistants/assistant-schemas.test.ts`
+  - `src/features/assistants/use-assistant.test.tsx`
+  - `src/app/(dashboard)/assistants/new/page.test.tsx`
+  - `src/app/(dashboard)/assistants/[assistantId]/layout.test.tsx`
+  - `src/app/(dashboard)/assistants/[assistantId]/page.test.tsx`
 
 ## 1. Goal
 
