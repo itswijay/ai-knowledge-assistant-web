@@ -18,7 +18,7 @@ Last reviewed: 2026-08-29
 | Step 6: Build dashboard home and assistant list | Complete | 2026-10-02 |
 | Step 7: Implement assistant creation and workspace | Complete | 2026-10-02 |
 | Step 8: Implement knowledge management | Complete | 2026-10-02 |
-| Step 9: Implement the playground | Not started | - |
+| Step 9: Implement the playground | Complete | 2026-10-02 |
 | Step 10: Implement appearance and assistant settings | Not started | - |
 | Step 11: Responsive, accessibility, and theme pass | Not started | - |
 | Step 12: Testing, documentation, and release verification | Not started | - |
@@ -170,6 +170,20 @@ Step 8 verification:
   - `src/components/knowledge/document-uploader.test.tsx`
   - `src/components/knowledge/document-list.test.tsx`
   - `src/app/(dashboard)/assistants/[assistantId]/knowledge/page.test.tsx`
+
+Step 9 verification:
+
+- Implemented `useChat` in `src/features/chat/use-chat.ts` managing local in-memory session chat, initializing with the assistant's `welcome_message`, 2,000-character input validation, duplicate in-flight submission guard, deduplicated source citation processing, fallback answer handling as standard assistant response (HTTP 200), and preserving failed questions with retry affordance on 502/503/404 errors.
+- Created `SourceCitations` in `src/components/playground/source-citations.tsx` providing an expandable disclosure displaying cited document filenames and page numbers.
+- Created `ChatMessage` in `src/components/playground/chat-message.tsx` rendering assistant messages (with branding avatar, thinking pulsing animation, multiline answers, and citations) and user messages (with retry affordance on failure).
+- Created `ChatInput` in `src/components/playground/chat-input.tsx` with multiline textarea, Enter-to-submit (Shift+Enter for newline), real-time `X / 2,000` character counter turning destructive on over-limit, and disabled states.
+- Created `PlaygroundChat` in `src/components/playground/playground-chat.tsx` providing testing session header, document index count badge, focus-preserving auto-scroll, and "Reset chat" button.
+- Updated `/assistants/[assistantId]/playground/page.tsx` replacing the placeholder stub with full testing playground, dynamic grounding context banner, and organization-assistant keying to guarantee memory reset on switch.
+- Added comprehensive unit and component test suites:
+  - `src/features/chat/use-chat.test.tsx`
+  - `src/components/playground/source-citations.test.tsx`
+  - `src/components/playground/chat-message.test.tsx`
+  - `src/app/(dashboard)/assistants/[assistantId]/playground/playground-page.test.tsx`
 
 ## 1. Goal
 

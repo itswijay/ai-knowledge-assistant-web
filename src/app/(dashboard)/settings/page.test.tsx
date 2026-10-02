@@ -48,10 +48,12 @@ describe("OrganizationSettingsPage", () => {
   it("handles copy organization ID to clipboard", async () => {
     const user = userEvent.setup();
     const writeTextMock = vi.fn().mockResolvedValue(undefined);
-    Object.assign(navigator, {
-      clipboard: {
+    Object.defineProperty(navigator, "clipboard", {
+      value: {
         writeText: writeTextMock,
       },
+      writable: true,
+      configurable: true,
     });
 
     vi.mocked(useOrganization).mockReturnValue({

@@ -179,7 +179,7 @@ describe("AssistantsPage", () => {
 
     expect(screen.getByText("No matching assistants")).toBeInTheDocument();
 
-    await user.click(screen.getByRole("button", { name: "Clear search" }));
+    await user.click(screen.getAllByRole("button", { name: "Clear search" })[0]);
 
     expect(screen.getByText("Customer Support")).toBeInTheDocument();
     expect(screen.getByText("Sales Assistant")).toBeInTheDocument();

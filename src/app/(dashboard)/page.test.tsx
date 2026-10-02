@@ -78,7 +78,7 @@ describe("Dashboard Home", () => {
   });
 
   it("renders loading skeleton while loading", () => {
-    vi.mocked(useOrganization).mockReturnValueOnce({
+    vi.mocked(useOrganization).mockReturnValue({
       organizations: [],
       selectedOrganizationId: null,
       selectedOrganization: null,
@@ -89,7 +89,7 @@ describe("Dashboard Home", () => {
       createOrganization: vi.fn(),
       isCreating: false,
     });
-    vi.mocked(useAssistants).mockReturnValueOnce({
+    vi.mocked(useAssistants).mockReturnValue({
       assistants: [],
       isLoading: false,
       isError: false,
@@ -102,7 +102,7 @@ describe("Dashboard Home", () => {
   });
 
   it("renders onboarding when user has zero organizations", () => {
-    vi.mocked(useOrganization).mockReturnValueOnce({
+    vi.mocked(useOrganization).mockReturnValue({
       organizations: [],
       selectedOrganizationId: null,
       selectedOrganization: null,
@@ -113,7 +113,7 @@ describe("Dashboard Home", () => {
       createOrganization: vi.fn(),
       isCreating: false,
     });
-    vi.mocked(useAssistants).mockReturnValueOnce({
+    vi.mocked(useAssistants).mockReturnValue({
       assistants: [],
       isLoading: false,
       isError: false,

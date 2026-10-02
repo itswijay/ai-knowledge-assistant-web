@@ -24,19 +24,42 @@ export class ApiError extends Error {
   readonly rawDetail?: string | FastApiValidationErrorDetail[];
 
   constructor(
-    status: number,
-    message: string,
-    options?: {
+    statusOrMessage: number | string,
+    messageOrOptions?:
+      | string
+      | {
+          status?: number;
+          details?: Record<string, string[]>;
+          rawDetail?: string | FastApiValidationErrorDetail[];
+          cause?: unknown;
+        },
+    maybeOptions?: {
       details?: Record<string, string[]>;
       rawDetail?: string | FastApiValidationErrorDetail[];
       cause?: unknown;
     },
   ) {
-    super(message, { cause: options?.cause });
+    let resolvedStatus = 500;
+    let resolvedMessage = "An error occurred.";
+    let resolvedOptions = maybeOptions;
+
+    if (typeof statusOrMessage === "number") {
+      resolvedStatus = statusOrMessage;
+      resolvedMessage = typeof messageOrOptions === "string" ? messageOrOptions : "";
+      resolvedOptions = maybeOptions;
+    } else {
+      resolvedMessage = statusOrMessage;
+      if (typeof messageOrOptions === "object" && messageOrOptions !== null) {
+        resolvedStatus = messageOrOptions.status ?? 500;
+        resolvedOptions = messageOrOptions;
+      }
+    }
+
+    super(resolvedMessage, { cause: resolvedOptions?.cause });
     this.name = "ApiError";
-    this.status = status;
-    this.details = options?.details;
-    this.rawDetail = options?.rawDetail;
+    this.status = resolvedStatus;
+    this.details = resolvedOptions?.details;
+    this.rawDetail = resolvedOptions?.rawDetail;
   }
 
   get isUnauthorized(): boolean {
@@ -65,6 +88,19 @@ export class ApiError extends Error {
 
   get isServerError(): boolean {
     return this.status >= 500;
+  }
+
+  get fieldErrors(): Record<string, string> {
+    const result: Record<string, string> = {};
+    if (!this.details) {
+      return result;
+    }
+    for (const [key, value] of Object.entries(this.details)) {
+      if (value && value.length > 0) {
+        result[key] = value[0];
+      }
+    }
+    return result;
   }
 
   fieldError(fieldName: string): string | undefined {

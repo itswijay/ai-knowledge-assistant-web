@@ -89,6 +89,7 @@ describe("NewAssistantPage", () => {
       expect(mocks.mutateAsync).toHaveBeenCalledWith({
         name: "Acme Bot",
         description: "Support assistant",
+        primary_color: "#2563EB",
       });
       expect(mocks.push).toHaveBeenCalledWith("/assistants/asst-new-1");
     });

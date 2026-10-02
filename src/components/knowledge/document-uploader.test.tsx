@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { toast } from "sonner";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -30,13 +30,12 @@ describe("DocumentUploader", () => {
   });
 
   it("rejects non-PDF files with client-side validation error", async () => {
-    const user = userEvent.setup();
     render(<DocumentUploader assistantId="asst-1" />);
 
     const invalidFile = new File(["test"], "notes.txt", { type: "text/plain" });
     const input = screen.getByLabelText("Upload PDF document");
 
-    await user.upload(input, invalidFile);
+    fireEvent.change(input, { target: { files: [invalidFile] } });
 
     expect(
       screen.getByText("Only PDF documents are supported."),

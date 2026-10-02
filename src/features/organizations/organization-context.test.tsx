@@ -128,6 +128,7 @@ describe("OrganizationContext & Provider", () => {
     });
 
     await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
       expect(result.current.selectedOrganizationId).toBe("org-1");
     });
 
@@ -148,13 +149,15 @@ describe("OrganizationContext & Provider", () => {
   });
 
   it("creates an organization and automatically selects it", async () => {
-    vi.mocked(orgApi.listOrganizations).mockResolvedValueOnce(mockOrgs);
     const newOrg: Organization = {
       id: "org-new",
       name: "New Org",
       createdAt: "2026-01-03T00:00:00Z",
       updatedAt: "2026-01-03T00:00:00Z",
     };
+    vi.mocked(orgApi.listOrganizations)
+      .mockResolvedValueOnce(mockOrgs)
+      .mockResolvedValueOnce([...mockOrgs, newOrg]);
     vi.mocked(orgApi.createOrganization).mockResolvedValueOnce(newOrg);
 
     const { result } = renderHook(() => useOrganization(), {

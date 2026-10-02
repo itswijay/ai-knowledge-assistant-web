@@ -83,9 +83,7 @@ describe("CreateOrganizationDialog", () => {
   it("displays server error message on failure", async () => {
     const user = userEvent.setup();
     mockCreateOrganization.mockRejectedValueOnce(
-      new ApiError("Failed to create organization due to server error", {
-        status: 500,
-      }),
+      new ApiError(500, "Failed to create organization due to server error"),
     );
 
     render(

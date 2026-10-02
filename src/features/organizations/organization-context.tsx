@@ -105,6 +105,10 @@ export function OrganizationProvider({
   const createMutation = useMutation({
     mutationFn: (name: string) => createOrganization({ name }),
     onSuccess: (newOrg) => {
+      queryClient.setQueryData(queryKeys.organizations.list(), (old: Organization[] = []) => {
+        if (old.some((o) => o.id === newOrg.id)) return old;
+        return [...old, newOrg];
+      });
       void queryClient.invalidateQueries({
         queryKey: queryKeys.organizations.list(),
       });

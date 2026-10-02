@@ -48,10 +48,17 @@ describe("DocumentList", () => {
       mutateAsync: mockDeleteMutateAsync,
       isPending: false,
     } as unknown as ReturnType<typeof useDeleteDocument>);
+    vi.mocked(useDocuments).mockReturnValue({
+      documents: mockDocs,
+      isLoading: false,
+      isError: false,
+      error: null,
+      refetch: mockRefetch,
+    });
   });
 
   it("renders empty state when no documents are uploaded", () => {
-    vi.mocked(useDocuments).mockReturnValueOnce({
+    vi.mocked(useDocuments).mockReturnValue({
       documents: [],
       isLoading: false,
       isError: false,
@@ -65,7 +72,7 @@ describe("DocumentList", () => {
   });
 
   it("renders loading skeleton while fetching documents", () => {
-    vi.mocked(useDocuments).mockReturnValueOnce({
+    vi.mocked(useDocuments).mockReturnValue({
       documents: [],
       isLoading: true,
       isError: false,
