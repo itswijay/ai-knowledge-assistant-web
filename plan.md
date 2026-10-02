@@ -17,7 +17,7 @@ Last reviewed: 2026-08-29
 | Step 5: Implement organization context and onboarding | Complete | 2026-10-02 |
 | Step 6: Build dashboard home and assistant list | Complete | 2026-10-02 |
 | Step 7: Implement assistant creation and workspace | Complete | 2026-10-02 |
-| Step 8: Implement knowledge management | Not started | - |
+| Step 8: Implement knowledge management | Complete | 2026-10-02 |
 | Step 9: Implement the playground | Not started | - |
 | Step 10: Implement appearance and assistant settings | Not started | - |
 | Step 11: Responsive, accessibility, and theme pass | Not started | - |
@@ -158,6 +158,18 @@ Step 7 verification:
   - `src/app/(dashboard)/assistants/new/page.test.tsx`
   - `src/app/(dashboard)/assistants/[assistantId]/layout.test.tsx`
   - `src/app/(dashboard)/assistants/[assistantId]/page.test.tsx`
+
+Step 8 verification:
+
+- Implemented `useDocuments`, `useUploadDocument`, and `useDeleteDocument` in `src/features/documents/use-documents.ts` with organization-scoped query keys and automatic cache invalidation.
+- Created `DocumentUploader` in `src/components/knowledge/document-uploader.tsx` with drag-and-drop zone, file picker, client-side prechecks (PDF extension and 10 MiB limit), indeterminate processing spinner without artificial progress, duplicate submit prevention, and specific API error mapping (413, 422, 403).
+- Created `DocumentList` in `src/components/knowledge/document-list.tsx` rendering uploaded documents with timestamps, empty state when zero documents exist, loading skeletons, and destructive `ConfirmationDialog` for deletion.
+- Updated `/assistants/[assistantId]/knowledge/page.tsx` replacing the placeholder stub with full knowledge ingestion and document management interface.
+- Added comprehensive unit and component test suites:
+  - `src/features/documents/use-documents.test.tsx`
+  - `src/components/knowledge/document-uploader.test.tsx`
+  - `src/components/knowledge/document-list.test.tsx`
+  - `src/app/(dashboard)/assistants/[assistantId]/knowledge/page.test.tsx`
 
 ## 1. Goal
 
