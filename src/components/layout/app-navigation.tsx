@@ -14,11 +14,6 @@ type NavigationItem = {
   disabled?: boolean;
 };
 
-const primaryItems: NavigationItem[] = [
-  { label: "Home", href: "/", icon: House },
-  { label: "Assistants", href: "/assistants", icon: Bot, disabled: true },
-];
-
 function NavigationLink({ item }: { item: NavigationItem }) {
   const pathname = usePathname();
   const isActive =
@@ -59,6 +54,16 @@ function NavigationLink({ item }: { item: NavigationItem }) {
 
 export function AppNavigation() {
   const { selectedOrganizationId } = useOrganization();
+
+  const primaryItems: NavigationItem[] = [
+    { label: "Home", href: "/", icon: House },
+    {
+      label: "Assistants",
+      href: "/assistants",
+      icon: Bot,
+      disabled: !selectedOrganizationId,
+    },
+  ];
 
   const settingsItems: NavigationItem[] = [
     {

@@ -15,7 +15,7 @@ Last reviewed: 2026-08-29
 | Step 3: Implement Supabase authentication | Complete | 2026-08-29 |
 | Step 4: Build the typed FastAPI layer | Complete | 2026-08-29 |
 | Step 5: Implement organization context and onboarding | Complete | 2026-10-02 |
-| Step 6: Build dashboard home and assistant list | Not started | - |
+| Step 6: Build dashboard home and assistant list | Complete | 2026-10-02 |
 | Step 7: Implement assistant creation and workspace | Not started | - |
 | Step 8: Implement knowledge management | Not started | - |
 | Step 9: Implement the playground | Not started | - |
@@ -128,6 +128,20 @@ Step 5 verification:
   - `src/features/organizations/create-organization-dialog.test.tsx`
   - `src/components/layout/organization-switcher.test.tsx`
   - `src/app/(dashboard)/settings/page.test.tsx`
+
+Step 6 verification:
+
+- Implemented `useAssistants` hook in `src/features/assistants/use-assistants.ts` querying `queryKeys.organizations.assistants(orgId)` with automatic enablement based on `selectedOrganizationId`.
+- Built `AssistantCard` component with visual primary color indicator, avatar fallback with name initial or logo, truncated description, formatted date, and workspace link in `src/components/assistants/assistant-card.tsx`.
+- Built `AssistantListSkeleton` matching the responsive grid geometry in `src/components/assistants/assistant-list-skeleton.tsx`.
+- Built full Assistant List page (`/assistants`) with real-time search filtering across names and descriptions, clear-search affordance, zero-assistant empty state, and retryable error state in `src/app/(dashboard)/assistants/page.tsx`.
+- Updated Dashboard Home (`/`) with legitimate metrics (`assistants.length` and active tenant), recently updated assistants sorted by `updatedAt` desc (up to 3), and zero-assistant prompt without N+1 queries.
+- Dynamically enabled "Assistants" navigation link and "New assistant" button in desktop/mobile navigation when an organization is active.
+- Added comprehensive unit and component tests:
+  - `src/features/assistants/use-assistants.test.tsx`
+  - `src/components/assistants/assistant-card.test.tsx`
+  - `src/app/(dashboard)/assistants/page.test.tsx`
+  - `src/app/(dashboard)/page.test.tsx`
 
 ## 1. Goal
 

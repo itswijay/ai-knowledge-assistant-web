@@ -1,3 +1,6 @@
+"use client";
+
+import Link from "next/link";
 import { Plus } from "lucide-react";
 
 import { Brand } from "@/components/layout/brand";
@@ -8,12 +11,15 @@ import { UserMenu } from "@/components/layout/user-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { useOrganization } from "@/features/organizations/use-organization";
 
 function getAccountInitial(email: string | null) {
   return email?.charAt(0).toUpperCase() || "A";
 }
 
 export function SidebarContent({ userEmail }: { userEmail: string | null }) {
+  const { selectedOrganizationId } = useOrganization();
+
   return (
     <div className="flex h-full min-h-0 flex-col bg-sidebar text-sidebar-foreground">
       <div className="flex h-16 shrink-0 items-center px-4">
@@ -21,15 +27,29 @@ export function SidebarContent({ userEmail }: { userEmail: string | null }) {
       </div>
 
       <div className="px-3 pb-4">
-        <Button
-          className="w-full justify-start border-sidebar-border bg-sidebar text-sidebar-foreground"
-          disabled
-          size="lg"
-          variant="outline"
-        >
-          <Plus aria-hidden="true" data-icon="inline-start" />
-          New assistant
-        </Button>
+        {selectedOrganizationId ? (
+          <Button
+            asChild
+            className="w-full justify-start border-sidebar-border bg-sidebar text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
+            size="lg"
+            variant="outline"
+          >
+            <Link href="/assistants/new">
+              <Plus aria-hidden="true" data-icon="inline-start" />
+              New assistant
+            </Link>
+          </Button>
+        ) : (
+          <Button
+            className="w-full justify-start border-sidebar-border bg-sidebar text-sidebar-foreground"
+            disabled
+            size="lg"
+            variant="outline"
+          >
+            <Plus aria-hidden="true" data-icon="inline-start" />
+            New assistant
+          </Button>
+        )}
       </div>
 
       <Separator className="bg-sidebar-border" />
