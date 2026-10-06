@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { createAssistantSchema } from "./assistant-schemas";
+import {
+  appearanceSchema,
+  createAssistantSchema,
+  settingsSchema,
+} from "./assistant-schemas";
 
 describe("createAssistantSchema", () => {
   it("accepts valid required fields", () => {
@@ -64,5 +68,118 @@ describe("createAssistantSchema", () => {
       primaryColor: "",
     });
     expect(result.success).toBe(true);
+  });
+});
+
+describe("appearanceSchema", () => {
+  it("accepts valid appearance values", () => {
+    const result = appearanceSchema.safeParse({
+      welcomeMessage: "Hello! How can I assist?",
+      logoUrl: "https://example.com/logo.png",
+      primaryColor: "#0f766e",
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it("accepts empty logoUrl", () => {
+    const result = appearanceSchema.safeParse({
+      welcomeMessage: "Hello!",
+      logoUrl: "",
+      primaryColor: "#2563EB",
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it("rejects empty or whitespace-only welcomeMessage", () => {
+    const result = appearanceSchema.safeParse({
+      welcomeMessage: "   ",
+      primaryColor: "#2563EB",
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects welcomeMessage exceeding 500 characters", () => {
+    const result = appearanceSchema.safeParse({
+      welcomeMessage: "x".repeat(501),
+      primaryColor: "#2563EB",
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects invalid logoUrl formats", () => {
+    expect(
+      appearanceSchema.safeParse({
+        welcomeMessage: "Hi",
+        logoUrl: "ftp://example.com/logo.png",
+        primaryColor: "#2563EB",
+      }).success,
+    ).toBe(false);
+
+    expect(
+      appearanceSchema.safeParse({
+        welcomeMessage: "Hi",
+        logoUrl: "https://user:pass@example.com/logo.png",
+        primaryColor: "#2563EB",
+      }).success,
+    ).toBe(false);
+
+    expect(
+      appearanceSchema.safeParse({
+        welcomeMessage: "Hi",
+        logoUrl: "not-a-url",
+        primaryColor: "#2563EB",
+      }).success,
+    ).toBe(false);
+  });
+
+  it("rejects invalid hex primaryColor", () => {
+    expect(
+      appearanceSchema.safeParse({
+        welcomeMessage: "Hi",
+        primaryColor: "#12345",
+      }).success,
+    ).toBe(false);
+
+    expect(
+      appearanceSchema.safeParse({
+        welcomeMessage: "Hi",
+        primaryColor: "rgb(255,0,0)",
+      }).success,
+    ).toBe(false);
+  });
+});
+
+describe("settingsSchema", () => {
+  it("accepts valid settings values", () => {
+    const result = settingsSchema.safeParse({
+      name: "Updated Assistant",
+      description: "Updated description",
+      assistantInstructions: "Be helpful and cite sources.",
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it("rejects empty name or assistantInstructions", () => {
+    expect(
+      settingsSchema.safeParse({
+        name: "",
+        assistantInstructions: "Some instructions",
+      }).success,
+    ).toBe(false);
+
+    expect(
+      settingsSchema.safeParse({
+        name: "Valid Name",
+        assistantInstructions: "   ",
+      }).success,
+    ).toBe(false);
+  });
+
+  it("rejects instructions exceeding 4,000 characters", () => {
+    const result = settingsSchema.safeParse({
+      name: "Valid Name",
+      assistantInstructions: "a".repeat(4001),
+    });
+    expect(result.success).toBe(false);
   });
 });

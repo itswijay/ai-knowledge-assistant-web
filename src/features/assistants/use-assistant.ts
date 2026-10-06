@@ -2,11 +2,19 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { createAssistant, getAssistant } from "@/lib/api/assistants";
+import {
+  createAssistant,
+  deleteAssistant,
+  getAssistant,
+  updateAssistant,
+} from "@/lib/api/assistants";
 import { listDocuments } from "@/lib/api/documents";
 import { queryKeys } from "@/lib/query/keys";
 import { useOrganization } from "@/features/organizations/use-organization";
-import type { CreateAssistantRequest } from "@/types/api";
+import type {
+  CreateAssistantRequest,
+  UpdateAssistantRequest,
+} from "@/types/api";
 import type { Assistant, Document } from "@/types/domain";
 
 export function useAssistant(assistantId: string | null) {
@@ -88,3 +96,56 @@ export function useCreateAssistant() {
     },
   });
 }
+
+export function useUpdateAssistant(assistantId: string | null) {
+  const queryClient = useQueryClient();
+  const { selectedOrganizationId } = useOrganization();
+
+  return useMutation({
+    mutationFn: (payload: UpdateAssistantRequest) => {
+      if (!assistantId) {
+        throw new Error("Assistant ID is required.");
+      }
+      return updateAssistant(assistantId, payload);
+    },
+    onSuccess: (updatedAssistant) => {
+      if (selectedOrganizationId && assistantId) {
+        queryClient.setQueryData(
+          queryKeys.organizations.assistant(selectedOrganizationId, assistantId),
+          updatedAssistant,
+        );
+        void queryClient.invalidateQueries({
+          queryKey: queryKeys.organizations.assistants(selectedOrganizationId),
+        });
+      }
+    },
+  });
+}
+
+export function useDeleteAssistant(assistantId: string | null) {
+  const queryClient = useQueryClient();
+  const { selectedOrganizationId } = useOrganization();
+
+  return useMutation({
+    mutationFn: () => {
+      if (!assistantId) {
+        throw new Error("Assistant ID is required.");
+      }
+      return deleteAssistant(assistantId);
+    },
+    onSuccess: () => {
+      if (selectedOrganizationId && assistantId) {
+        queryClient.removeQueries({
+          queryKey: queryKeys.organizations.assistant(
+            selectedOrganizationId,
+            assistantId,
+          ),
+        });
+        void queryClient.invalidateQueries({
+          queryKey: queryKeys.organizations.assistants(selectedOrganizationId),
+        });
+      }
+    },
+  });
+}
+

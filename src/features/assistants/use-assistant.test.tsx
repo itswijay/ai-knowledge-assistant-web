@@ -10,6 +10,8 @@ import {
   useAssistant,
   useAssistantDocuments,
   useCreateAssistant,
+  useDeleteAssistant,
+  useUpdateAssistant,
 } from "./use-assistant";
 
 vi.mock("@/features/organizations/use-organization", () => ({
@@ -19,6 +21,8 @@ vi.mock("@/features/organizations/use-organization", () => ({
 vi.mock("@/lib/api/assistants", () => ({
   getAssistant: vi.fn(),
   createAssistant: vi.fn(),
+  updateAssistant: vi.fn(),
+  deleteAssistant: vi.fn(),
 }));
 
 vi.mock("@/lib/api/documents", () => ({
@@ -126,5 +130,38 @@ describe("useAssistant and useAssistantDocuments hooks", () => {
       name: "Documentation Bot",
     });
     expect(created).toEqual(mockAssistant);
+  });
+
+  it("updates an assistant with useUpdateAssistant", async () => {
+    const updated = { ...mockAssistant, name: "Updated Bot" };
+    vi.mocked(assistantsApi.updateAssistant).mockResolvedValueOnce(updated);
+
+    const { result } = renderHook(() => useUpdateAssistant("asst-1"), {
+      wrapper: createWrapper(queryClient),
+    });
+
+    let res: Assistant | undefined;
+    await act(async () => {
+      res = await result.current.mutateAsync({ name: "Updated Bot" });
+    });
+
+    expect(assistantsApi.updateAssistant).toHaveBeenCalledWith("asst-1", {
+      name: "Updated Bot",
+    });
+    expect(res).toEqual(updated);
+  });
+
+  it("deletes an assistant with useDeleteAssistant", async () => {
+    vi.mocked(assistantsApi.deleteAssistant).mockResolvedValueOnce(undefined);
+
+    const { result } = renderHook(() => useDeleteAssistant("asst-1"), {
+      wrapper: createWrapper(queryClient),
+    });
+
+    await act(async () => {
+      await result.current.mutateAsync();
+    });
+
+    expect(assistantsApi.deleteAssistant).toHaveBeenCalledWith("asst-1");
   });
 });

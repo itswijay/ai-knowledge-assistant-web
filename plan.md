@@ -19,7 +19,7 @@ Last reviewed: 2026-08-29
 | Step 7: Implement assistant creation and workspace | Complete | 2026-10-02 |
 | Step 8: Implement knowledge management | Complete | 2026-10-02 |
 | Step 9: Implement the playground | Complete | 2026-10-02 |
-| Step 10: Implement appearance and assistant settings | Not started | - |
+| Step 10: Implement appearance and assistant settings | Complete | 2026-10-06 |
 | Step 11: Responsive, accessibility, and theme pass | Not started | - |
 | Step 12: Testing, documentation, and release verification | Not started | - |
 
@@ -184,6 +184,30 @@ Step 9 verification:
   - `src/components/playground/source-citations.test.tsx`
   - `src/components/playground/chat-message.test.tsx`
   - `src/app/(dashboard)/assistants/[assistantId]/playground/playground-page.test.tsx`
+
+Step 10 verification:
+
+- Implemented `appearanceSchema` and `settingsSchema` in `src/features/assistants/assistant-schemas.ts` with strict length limits, absolute HTTP/HTTPS URL checks, hex color validation, and customer-facing instructions (strictly without any `system_prompt` field).
+- Created `getReadableTextColor` in `src/lib/utils/contrast.ts` for WCAG 2.1 relative luminance calculation to ensure readable dark or light text contrast.
+- Added `useUpdateAssistant` and `useDeleteAssistant` hooks in `src/features/assistants/use-assistant.ts` with organization-scoped cache invalidation and updates.
+- Added `useUnsavedChanges` hook in `src/features/assistants/use-unsaved-changes.ts` protecting against accidental tab closing or page refresh when forms are dirty.
+- Created `AssistantLivePreview` in `src/components/assistants/assistant-live-preview.tsx` displaying an immediate live preview of the assistant header, logo fallback, welcome greeting mockup bubble, and contrast badge.
+- Created `AssistantAppearanceForm` in `src/components/assistants/assistant-appearance-form.tsx` supporting live updates, quick color preset swatches, hex picker, delta PATCH computation (only transmitting changed fields), form dirty state warnings, and reset affordances.
+- Created `AssistantSettingsForm` in `src/components/assistants/assistant-settings-form.tsx` for updating name, description, and `assistant_instructions` with delta PATCH payloads and 403 Forbidden handling.
+- Created `AssistantDangerZone` in `src/components/assistants/assistant-danger-zone.tsx` with modal confirmation requiring typing the assistant name, deletion execution, query cache purging, and recovery redirect to `/assistants`.
+- Replaced stubs with full implementations for:
+  - `/assistants/[assistantId]/appearance/page.tsx`
+  - `/assistants/[assistantId]/settings/page.tsx`
+- Added comprehensive unit and component test suites:
+  - `src/lib/utils/contrast.test.ts`
+  - `src/features/assistants/assistant-schemas.test.ts`
+  - `src/features/assistants/use-assistant.test.tsx`
+  - `src/components/assistants/assistant-live-preview.test.tsx`
+  - `src/components/assistants/assistant-appearance-form.test.tsx`
+  - `src/components/assistants/assistant-settings-form.test.tsx`
+  - `src/components/assistants/assistant-danger-zone.test.tsx`
+  - `src/app/(dashboard)/assistants/[assistantId]/appearance/appearance-page.test.tsx`
+  - `src/app/(dashboard)/assistants/[assistantId]/settings/settings-page.test.tsx`
 
 ## 1. Goal
 
