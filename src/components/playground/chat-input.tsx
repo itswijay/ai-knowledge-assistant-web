@@ -65,6 +65,8 @@ export function ChatInput({
           placeholder={placeholder}
           rows={3}
           aria-label="Ask a question"
+          aria-invalid={isOverLimit}
+          aria-describedby={isOverLimit ? "char-limit-error" : undefined}
           className="w-full resize-none bg-transparent px-3.5 py-3 text-sm placeholder:text-muted-foreground outline-none disabled:cursor-not-allowed disabled:opacity-60"
         />
 
@@ -84,7 +86,12 @@ export function ChatInput({
               {charCount.toLocaleString()} / {MAX_CHAR_COUNT.toLocaleString()}
             </span>
             {isOverLimit ? (
-              <span className="text-[11px] text-destructive">
+              <span
+                id="char-limit-error"
+                role="alert"
+                aria-live="assertive"
+                className="text-[11px] text-destructive"
+              >
                 Exceeds 2,000 character limit
               </span>
             ) : null}

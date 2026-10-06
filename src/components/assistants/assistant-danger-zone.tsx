@@ -105,7 +105,7 @@ export function AssistantDangerZone({ assistant }: AssistantDangerZoneProps) {
 
       {/* Confirmation Dialog */}
       <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="w-[calc(100vw-2rem)] max-w-md sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-destructive">
               <AlertTriangle className="size-5 shrink-0" aria-hidden="true" />
@@ -126,7 +126,11 @@ export function AssistantDangerZone({ assistant }: AssistantDangerZoneProps) {
             ) : null}
 
             <div className="space-y-2">
-              <Label htmlFor="delete-confirmation-input" className="text-xs font-medium">
+              <Label
+                id="delete-confirmation-instructions"
+                htmlFor="delete-confirmation-input"
+                className="text-xs font-medium"
+              >
                 To confirm deletion, please type{" "}
                 <span className="font-semibold text-foreground select-all">
                   {assistant.name}
@@ -140,6 +144,7 @@ export function AssistantDangerZone({ assistant }: AssistantDangerZoneProps) {
                 onChange={(e) => setConfirmationInput(e.target.value)}
                 placeholder={assistant.name}
                 autoComplete="off"
+                aria-describedby="delete-confirmation-instructions"
                 className="text-xs"
               />
             </div>

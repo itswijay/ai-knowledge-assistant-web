@@ -156,12 +156,14 @@ export function AssistantAppearanceForm({
             Welcome Message <span className="text-destructive">*</span>
           </Label>
           <span
+            id="welcome-message-count"
             className={cn(
               "text-[11px] tabular-nums",
               welcomeMessageValue.length > 500
                 ? "text-destructive font-semibold"
                 : "text-muted-foreground",
             )}
+            aria-live="polite"
           >
             {welcomeMessageValue.length} / 500
           </span>
@@ -171,6 +173,11 @@ export function AssistantAppearanceForm({
           rows={3}
           {...register("welcomeMessage")}
           aria-invalid={Boolean(errors.welcomeMessage)}
+          aria-describedby={
+            errors.welcomeMessage
+              ? "welcome-message-error"
+              : "welcome-message-desc"
+          }
           placeholder="e.g. Hi! How can I help you today?"
           className={cn(
             "w-full rounded-lg border border-input bg-transparent px-3 py-2 text-sm placeholder:text-muted-foreground outline-none transition-colors focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30 disabled:cursor-not-allowed disabled:opacity-50",
@@ -178,9 +185,11 @@ export function AssistantAppearanceForm({
           )}
         />
         {errors.welcomeMessage ? (
-          <p className="text-xs text-destructive">{errors.welcomeMessage.message}</p>
+          <p id="welcome-message-error" className="text-xs text-destructive">
+            {errors.welcomeMessage.message}
+          </p>
         ) : (
-          <p className="text-xs text-muted-foreground">
+          <p id="welcome-message-desc" className="text-xs text-muted-foreground">
             The initial message end users see when opening the assistant chat.
           </p>
         )}
@@ -197,6 +206,9 @@ export function AssistantAppearanceForm({
             type="url"
             {...register("logoUrl")}
             aria-invalid={Boolean(errors.logoUrl)}
+            aria-describedby={
+              errors.logoUrl ? "logo-url-error" : "logo-url-desc"
+            }
             placeholder="https://example.com/logo.png"
             className="pr-8"
           />
@@ -212,9 +224,11 @@ export function AssistantAppearanceForm({
           ) : null}
         </div>
         {errors.logoUrl ? (
-          <p className="text-xs text-destructive">{errors.logoUrl.message}</p>
+          <p id="logo-url-error" className="text-xs text-destructive">
+            {errors.logoUrl.message}
+          </p>
         ) : (
-          <p className="text-xs text-muted-foreground">
+          <p id="logo-url-desc" className="text-xs text-muted-foreground">
             Direct public link to a PNG, JPEG, or SVG logo. If left blank, the assistant uses initial fallback branding.
           </p>
         )}
@@ -227,7 +241,11 @@ export function AssistantAppearanceForm({
         </Label>
 
         {/* Color Presets */}
-        <div className="flex flex-wrap items-center gap-2">
+        <div
+          role="group"
+          aria-label="Color presets"
+          className="flex flex-wrap items-center gap-2"
+        >
           {PRESET_COLORS.map((preset) => {
             const isSelected =
               selectedColor.toLowerCase() === preset.hex.toLowerCase();
@@ -242,6 +260,8 @@ export function AssistantAppearanceForm({
                   })
                 }
                 title={preset.name}
+                aria-label={preset.name}
+                aria-pressed={isSelected}
                 className={cn(
                   "relative flex size-7 items-center justify-center rounded-full border shadow-2xs transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
                   isSelected
@@ -288,12 +308,17 @@ export function AssistantAppearanceForm({
             type="text"
             {...register("primaryColor")}
             aria-invalid={Boolean(errors.primaryColor)}
+            aria-describedby={
+              errors.primaryColor ? "primary-color-error" : undefined
+            }
             placeholder="#2563EB"
             className="font-mono text-xs uppercase"
           />
         </div>
         {errors.primaryColor ? (
-          <p className="text-xs text-destructive">{errors.primaryColor.message}</p>
+          <p id="primary-color-error" className="text-xs text-destructive">
+            {errors.primaryColor.message}
+          </p>
         ) : null}
       </div>
 

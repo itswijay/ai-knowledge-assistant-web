@@ -28,13 +28,19 @@ export function PlaygroundChat({ assistant, documentCount = 0 }: PlaygroundChatP
 
   const messagesEndRef = React.useRef<HTMLDivElement>(null);
 
-  // Auto-scroll on new messages or pending changes without stealing focus
+  // Auto-scroll on new messages or pending changes without stealing focus, respecting prefers-reduced-motion
   React.useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const prefersReducedMotion =
+      typeof window !== "undefined" &&
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    messagesEndRef.current?.scrollIntoView({
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+    });
   }, [messages.length, isSending]);
 
   return (
-    <div className="flex flex-col h-[680px] rounded-xl border border-border bg-card shadow-xs overflow-hidden">
+    <div className="flex flex-col h-[min(680px,calc(100svh-12rem))] min-h-[460px] rounded-xl border border-border bg-card shadow-xs overflow-hidden">
       {/* Playground Header / Status Bar */}
       <div className="flex items-center justify-between border-b border-border/80 bg-muted/30 px-4 py-3 shrink-0">
         <div className="flex items-center gap-2.5">

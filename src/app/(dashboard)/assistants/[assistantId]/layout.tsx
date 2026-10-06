@@ -81,10 +81,10 @@ export default function AssistantWorkspaceLayout({
         </div>
 
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div className="flex items-center gap-3.5">
+          <div className="flex items-center gap-3.5 min-w-0 flex-1">
             <Avatar
               size="lg"
-              className="border shadow-xs"
+              className="border shadow-xs shrink-0"
               style={{ borderColor: assistant.primaryColor }}
             >
               {assistant.logoUrl ? (
@@ -101,19 +101,19 @@ export default function AssistantWorkspaceLayout({
               </AvatarFallback>
             </Avatar>
 
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <h1 className="font-heading text-xl font-semibold text-foreground">
+            <div className="space-y-1 min-w-0 flex-1">
+              <div className="flex items-center gap-2 min-w-0">
+                <h1 className="font-heading text-xl font-semibold text-foreground break-words sm:text-2xl">
                   {assistant.name}
                 </h1>
                 <span
-                  className="size-2.5 rounded-full"
+                  className="size-2.5 rounded-full shrink-0"
                   style={{ backgroundColor: assistant.primaryColor }}
                   title={`Branding color: ${assistant.primaryColor}`}
                 />
               </div>
               {assistant.description ? (
-                <p className="text-xs text-muted-foreground max-w-xl line-clamp-2">
+                <p className="text-xs text-muted-foreground max-w-xl break-words line-clamp-2">
                   {assistant.description}
                 </p>
               ) : null}

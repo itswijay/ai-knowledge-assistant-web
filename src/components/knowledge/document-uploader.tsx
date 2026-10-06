@@ -108,7 +108,7 @@ export function DocumentUploader({ assistantId }: { assistantId: string }) {
         onDragLeave={onDragLeave}
         onDrop={onDrop}
         className={cn(
-          "relative flex flex-col items-center justify-center rounded-xl border-2 border-dashed p-8 text-center transition-colors",
+          "relative flex flex-col items-center justify-center rounded-xl border-2 border-dashed p-5 sm:p-8 text-center transition-colors",
           isDragging
             ? "border-primary bg-primary/5"
             : "border-border hover:border-sidebar-ring/60 bg-muted/20",
@@ -127,7 +127,7 @@ export function DocumentUploader({ assistantId }: { assistantId: string }) {
         />
 
         {isPending ? (
-          <div className="flex flex-col items-center gap-3 py-4">
+          <div role="status" aria-live="polite" className="flex flex-col items-center gap-3 py-4">
             <LoaderCircle className="size-8 text-primary animate-spin" />
             <div className="space-y-1">
               <p className="text-sm font-semibold text-foreground">

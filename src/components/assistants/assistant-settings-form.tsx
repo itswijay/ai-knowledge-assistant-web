@@ -137,12 +137,14 @@ export function AssistantSettingsForm({
             Assistant Name <span className="text-destructive">*</span>
           </Label>
           <span
+            id="assistant-name-count"
             className={cn(
               "text-[11px] tabular-nums",
               nameValue.length > 100
                 ? "text-destructive font-semibold"
                 : "text-muted-foreground",
             )}
+            aria-live="polite"
           >
             {nameValue.length} / 100
           </span>
@@ -152,10 +154,13 @@ export function AssistantSettingsForm({
           type="text"
           {...register("name")}
           aria-invalid={Boolean(errors.name)}
+          aria-describedby={errors.name ? "assistant-name-error" : undefined}
           placeholder="e.g. Warranty Support Assistant"
         />
         {errors.name ? (
-          <p className="text-xs text-destructive">{errors.name.message}</p>
+          <p id="assistant-name-error" className="text-xs text-destructive">
+            {errors.name.message}
+          </p>
         ) : null}
       </div>
 
@@ -166,12 +171,14 @@ export function AssistantSettingsForm({
             Description (optional)
           </Label>
           <span
+            id="assistant-description-count"
             className={cn(
               "text-[11px] tabular-nums",
               descriptionValue.length > 1000
                 ? "text-destructive font-semibold"
                 : "text-muted-foreground",
             )}
+            aria-live="polite"
           >
             {descriptionValue.length} / 1,000
           </span>
@@ -181,12 +188,19 @@ export function AssistantSettingsForm({
           type="text"
           {...register("description")}
           aria-invalid={Boolean(errors.description)}
+          aria-describedby={
+            errors.description
+              ? "assistant-description-error"
+              : "assistant-description-desc"
+          }
           placeholder="e.g. Answers product and warranty questions from uploaded PDF manuals"
         />
         {errors.description ? (
-          <p className="text-xs text-destructive">{errors.description.message}</p>
+          <p id="assistant-description-error" className="text-xs text-destructive">
+            {errors.description.message}
+          </p>
         ) : (
-          <p className="text-xs text-muted-foreground">
+          <p id="assistant-description-desc" className="text-xs text-muted-foreground">
             A short summary of what this assistant helps with, shown in assistant lists and navigation.
           </p>
         )}
@@ -199,12 +213,14 @@ export function AssistantSettingsForm({
             Assistant Instructions <span className="text-destructive">*</span>
           </Label>
           <span
+            id="assistant-instructions-count"
             className={cn(
               "text-[11px] tabular-nums",
               instructionsValue.length > 4000
                 ? "text-destructive font-semibold"
                 : "text-muted-foreground",
             )}
+            aria-live="polite"
           >
             {instructionsValue.length} / 4,000
           </span>
@@ -214,6 +230,11 @@ export function AssistantSettingsForm({
           rows={5}
           {...register("assistantInstructions")}
           aria-invalid={Boolean(errors.assistantInstructions)}
+          aria-describedby={
+            errors.assistantInstructions
+              ? "assistant-instructions-error"
+              : "assistant-instructions-desc"
+          }
           placeholder="Provide guiding rules for your assistant (e.g. Answer questions in a polite tone and cite warranty terms directly)..."
           className={cn(
             "w-full rounded-lg border border-input bg-transparent px-3 py-2 text-sm placeholder:text-muted-foreground outline-none transition-colors focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30 disabled:cursor-not-allowed disabled:opacity-50 font-mono text-xs leading-relaxed",
@@ -221,11 +242,11 @@ export function AssistantSettingsForm({
           )}
         />
         {errors.assistantInstructions ? (
-          <p className="text-xs text-destructive">
+          <p id="assistant-instructions-error" className="text-xs text-destructive">
             {errors.assistantInstructions.message}
           </p>
         ) : (
-          <p className="text-xs text-muted-foreground">
+          <p id="assistant-instructions-desc" className="text-xs text-muted-foreground">
             Customer-facing guidance controlling tone and refusal boundaries during grounded question answering.
           </p>
         )}

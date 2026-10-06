@@ -20,7 +20,7 @@ Last reviewed: 2026-08-29
 | Step 8: Implement knowledge management | Complete | 2026-10-02 |
 | Step 9: Implement the playground | Complete | 2026-10-02 |
 | Step 10: Implement appearance and assistant settings | Complete | 2026-10-06 |
-| Step 11: Responsive, accessibility, and theme pass | Not started | - |
+| Step 11: Responsive, accessibility, and theme pass | Complete | 2026-10-06 |
 | Step 12: Testing, documentation, and release verification | Not started | - |
 
 Step 1 verification:
@@ -208,6 +208,20 @@ Step 10 verification:
   - `src/components/assistants/assistant-danger-zone.test.tsx`
   - `src/app/(dashboard)/assistants/[assistantId]/appearance/appearance-page.test.tsx`
   - `src/app/(dashboard)/assistants/[assistantId]/settings/settings-page.test.tsx`
+
+Step 11 verification:
+
+- Tested responsive layout constraints, text containment (`break-words`, `min-w-0`), and adaptable heights on mobile (360px), tablet (768px), and desktop (1280px+).
+- Added `prefers-reduced-motion` detection in `src/components/playground/playground-chat.tsx` for smooth scrolling and responsive chat window sizing.
+- Added responsive dropzone padding (`p-5 sm:p-8`) and accessible live progress announcements (`role="status"`, `aria-live="polite"`) to `src/components/knowledge/document-uploader.tsx`.
+- Connected form inputs in `AssistantAppearanceForm` and `AssistantSettingsForm` with `aria-describedby` linking to error and description IDs (`welcome-message-error`, `assistant-name-error`, etc.).
+- Added `aria-label`, `role="group"`, and `aria-pressed` states to color presets in `AssistantAppearanceForm`.
+- Added `aria-describedby` to the danger zone confirmation input linking to instructions, and responsive modal width constraints (`w-[calc(100vw-2rem)] sm:max-w-md`).
+- Added `role="alert"` / `aria-live="assertive"` to character limit over-boundary warnings in `src/components/playground/chat-input.tsx`.
+- Verified WCAG 2.1 AA text contrast across light and dark palettes in `globals.css` and dynamic brand color contrast calculation (`getReadableTextColor`).
+- Added dedicated automated accessibility and responsive test suite in `src/components/common/a11y-responsive.test.tsx` (8 new tests, 214 total tests passing).
+- `pnpm typecheck`: passed with zero errors (`tsc --noEmit`).
+- `pnpm test:run`: passed all 43 test files.
 
 ## 1. Goal
 
