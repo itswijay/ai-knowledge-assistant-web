@@ -5,7 +5,7 @@ import { getSafeNextPath } from "@/lib/auth/redirects";
 
 export const metadata: Metadata = {
   title: "Create account",
-  description: "Create an account for AI Knowledge Assistant.",
+  description: "Create an account for kdok.",
 };
 
 type SignupPageProps = {

@@ -18,7 +18,7 @@ export function Brand({ compact = false }: { compact?: boolean }) {
           compact && "hidden min-[390px]:inline",
         )}
       >
-        Knowledge Assistant
+        kdok
       </span>
     </Link>
   );

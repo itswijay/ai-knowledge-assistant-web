@@ -11,11 +11,11 @@ const geistSans = Geist({
 
 export const metadata: Metadata = {
   title: {
-    default: "AI Knowledge Assistant",
-    template: "%s | AI Knowledge Assistant",
+    default: "kdok",
+    template: "%s | kdok",
   },
   description:
-    "Create and manage grounded AI knowledge assistants for your organization.",
+    "Grounded AI knowledge assistants docked to your organization.",
 };
 
 export default function RootLayout({

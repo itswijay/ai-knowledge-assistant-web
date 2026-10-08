@@ -113,7 +113,7 @@ export function LoginForm({ nextPath, callbackError = false }: LoginFormProps) {
       </form>
 
       <p className="mt-6 text-center text-sm text-muted-foreground">
-        New to Knowledge Assistant?{" "}
+        New to kdok?{" "}
         <Link
           className="whitespace-nowrap font-medium text-foreground underline-offset-4 hover:underline"
           href={getAuthScreenPath("/signup", nextPath)}

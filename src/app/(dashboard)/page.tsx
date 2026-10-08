@@ -41,7 +41,7 @@ export default function Home() {
       <ContentContainer>
         <PageHeader
           title="Home"
-          description="Get started with your AI Knowledge Assistant."
+          description="Get started with kdok."
         />
         <div className="pt-6">
           <OrganizationOnboarding />
@@ -103,7 +103,7 @@ export default function Home() {
               <Building2 className="size-4 text-primary" />
             </div>
             <div className="mt-4 flex items-baseline justify-between">
-              <span className="font-heading text-base font-semibold text-foreground truncate max-w-[180px]">
+              <span className="font-heading text-base font-semibold text-foreground truncate max-w-45">
                 {selectedOrganization?.name}
               </span>
               <Button variant="ghost" size="xs" asChild>

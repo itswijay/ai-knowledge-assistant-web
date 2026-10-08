@@ -5,7 +5,7 @@ import { getSafeNextPath } from "@/lib/auth/redirects";
 
 export const metadata: Metadata = {
   title: "Sign in",
-  description: "Sign in to manage your AI knowledge assistants.",
+  description: "Sign in to kdok.",
 };
 
 type LoginPageProps = {
