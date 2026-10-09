@@ -44,7 +44,7 @@ export function ChatMessage({
         <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground px-1">
           <span>You</span>
           <span>•</span>
-          <span>{formattedTime}</span>
+          <span suppressHydrationWarning>{formattedTime}</span>
         </div>
 
         <div className="rounded-2xl rounded-tr-xs bg-primary px-4 py-2.5 text-sm text-primary-foreground shadow-xs">
@@ -101,7 +101,7 @@ export function ChatMessage({
         <div className="flex items-center gap-2 text-[11px] text-muted-foreground px-1">
           <span className="font-medium text-foreground">{assistantName}</span>
           <span>•</span>
-          <span>{formattedTime}</span>
+          <span suppressHydrationWarning>{formattedTime}</span>
         </div>
 
         <div className="rounded-2xl rounded-tl-xs border border-border/70 bg-card p-4 text-sm shadow-2xs">
