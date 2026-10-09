@@ -64,4 +64,27 @@ describe("Supabase auth Proxy", () => {
     expect(response.status).toBe(307);
     expect(response.headers.get("location")).toBe("https://app.example/");
   });
+
+  it("allows unauthenticated widget page requests without redirecting", async () => {
+    mocks.getClaims.mockResolvedValueOnce({ data: null });
+
+    const response = await updateSession(
+      new NextRequest("https://app.example/widget/7d9116e3-4cdd-495c-b215-cc9eee299a00"),
+    );
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get("location")).toBeNull();
+  });
+
+  it("allows unauthenticated widget.js script requests without redirecting", async () => {
+    mocks.getClaims.mockResolvedValueOnce({ data: null });
+
+    const response = await updateSession(
+      new NextRequest("https://app.example/widget.js"),
+    );
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get("location")).toBeNull();
+  });
 });
+

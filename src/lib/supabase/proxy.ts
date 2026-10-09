@@ -44,6 +44,12 @@ export async function updateSession(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const isAuthScreen = authScreenPaths.has(pathname);
   const isAuthHandler = pathname.startsWith("/auth/");
+  const isPublicWidget =
+    pathname.startsWith("/widget") || pathname === "/widget.js";
+
+  if (isPublicWidget) {
+    return response;
+  }
 
   if (!isAuthenticated && !isAuthScreen && !isAuthHandler) {
     const loginUrl = request.nextUrl.clone();
