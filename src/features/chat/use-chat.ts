@@ -4,7 +4,7 @@ import * as React from "react";
 
 import { sendChatMessage } from "@/lib/api/chat";
 import { ApiError } from "@/lib/api/errors";
-import type { ChatSource } from "@/types/domain";
+import type { ChatResult, ChatSource } from "@/types/domain";
 
 export interface ChatMessageItem {
   id: string;
@@ -19,6 +19,7 @@ export interface ChatMessageItem {
 export interface UseChatOptions {
   assistantId: string;
   initialWelcomeMessage?: string;
+  sendFn?: (assistantId: string, payload: { message: string }) => Promise<ChatResult>;
 }
 
 export function deduplicateSources(sources: ChatSource[]): ChatSource[] {
@@ -47,7 +48,11 @@ function createWelcomeMessage(welcome?: string): ChatMessageItem {
   };
 }
 
-export function useChat({ assistantId, initialWelcomeMessage }: UseChatOptions) {
+export function useChat({
+  assistantId,
+  initialWelcomeMessage,
+  sendFn,
+}: UseChatOptions) {
   const [messages, setMessages] = React.useState<ChatMessageItem[]>(() => [
     createWelcomeMessage(initialWelcomeMessage),
   ]);
@@ -98,7 +103,9 @@ export function useChat({ assistantId, initialWelcomeMessage }: UseChatOptions) 
       setLastFailedQuestion(null);
 
       try {
-        const result = await sendChatMessage(assistantId, { message: trimmed });
+        const result = sendFn
+          ? await sendFn(assistantId, { message: trimmed })
+          : await sendChatMessage(assistantId, { message: trimmed });
 
         setMessages((prev) =>
           prev.map((msg) => {

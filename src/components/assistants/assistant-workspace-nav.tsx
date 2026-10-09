@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   BookOpen,
+  Code2,
   LayoutDashboard,
   MessageSquare,
   Palette,
@@ -24,6 +25,7 @@ const tabs: WorkspaceTab[] = [
   { label: "Knowledge", segment: "knowledge", icon: BookOpen },
   { label: "Playground", segment: "playground", icon: MessageSquare },
   { label: "Appearance", segment: "appearance", icon: Palette },
+  { label: "Widget", segment: "widget", icon: Code2 },
   { label: "Settings", segment: "settings", icon: Settings },
 ];
 

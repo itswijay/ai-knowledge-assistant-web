@@ -78,6 +78,14 @@ export interface HealthResponse {
   status: string;
 }
 
+export interface WidgetConfigResponse {
+  id: string;
+  name: string;
+  welcome_message: string;
+  logo_url: string | null;
+  primary_color: string;
+}
+
 export interface FastApiValidationErrorDetail {
   loc: (string | number)[];
   msg: string;
